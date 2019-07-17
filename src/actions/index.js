@@ -1,6 +1,7 @@
-const commandRequested = () => {
+const commandRequested = (args) => {
     return {
-        type: 'FETCH_COMMAND_REQUEST'
+        type: 'FETCH_COMMAND_REQUEST',
+        payload: args
     };
 };
 
@@ -12,9 +13,12 @@ const commandComplite = (newLog) => {
 };
 
 const fetchCommand = (commandService, dispatch, command) => {
-    dispatch(commandRequested());
-    commandService.fetchCommand(command)
-        .then((data) => dispatch(commandComplite(data)))
+
+    const [ args, method ] = command.split(' ');
+    const [ model, item ] = args.split(':');
+
+    dispatch(commandRequested({ model, item }));
+    commandService.fetchCommand({model, item, method})
 };
 
 export {
