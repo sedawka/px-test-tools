@@ -12,6 +12,13 @@ const commandComplite = (newLog) => {
     };
 };
 
+const commandError = (newLog) => {
+    return {
+        type: 'FETCH_COMMAND_ERROR',
+        payload: newLog
+    };
+};
+
 const fetchCommand = (commandService, dispatch, command) => {
 
     const [ args, method ] = command.split(' ');
@@ -19,6 +26,8 @@ const fetchCommand = (commandService, dispatch, command) => {
 
     dispatch(commandRequested({ model, item }));
     commandService.fetchCommand({model, item, method})
+        .then((data) => dispatch(commandComplite(data)))
+        .catch((err) => dispatch(commandError(err)));
 };
 
 export {

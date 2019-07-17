@@ -2,7 +2,8 @@ const initialState = {
     model: 'home',
     item: '',
     logCounter: 1,
-    logs: []
+    logs: [],
+    error: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,7 +28,11 @@ const reducer = (state = initialState, action) => {
                         text: action.payload
                     }]
             };
-
+        case 'FETCH_COMMAND_ERROR':
+            return {
+                ...state,
+                error: true
+            };
         default:
             return state;
     }
